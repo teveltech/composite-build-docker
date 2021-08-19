@@ -36,7 +36,6 @@ inputs:
   branch:
     required: true
     description: 'The repo branch'
-#     default: ${GITHUB_REF#refs/heads/}
   previous_light_tag:
     required: false
     description: 'previous lightweight tag'
