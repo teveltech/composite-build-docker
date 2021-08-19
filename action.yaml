@@ -75,11 +75,12 @@ runs:
           username: ${{ inputs.username }} 
           password: ${{ inputs.password }}
           
-      - name: Override version in conanpackage.py
+#   TODO: enable when 'if' is supported
+#       - name: Override version in setup.py / conanfile.py
 #         if: ${{ inputs.conan == 'true' }}
-        uses: teveltech/version-action@master
-        with:
-          new_version: ${{ inputs.new_tag }}
+#         uses: teveltech/version-action@master
+#         with:
+#           new_version: ${{ inputs.new_tag }}
           
       - name: Build
         id: build
