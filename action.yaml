@@ -77,7 +77,7 @@ runs:
           password: ${{ inputs.password }}
           
       - name: Override version in conanpackage.py
-        if: ${{ inputs.conan == 'true' }}
+#         if: ${{ inputs.conan == 'true' }}
         uses: teveltech/version-action@master
         with:
           new_version: ${{ inputs.new_tag }}
