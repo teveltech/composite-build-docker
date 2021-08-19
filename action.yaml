@@ -1,10 +1,5 @@
 name: 'Docker composite action'
 description: 'A composite action to handle building a Docker image'
-
-env:
-  namespace:  PLACEHOLDER             # TODO: REPLACE WITH: drone | bin | gcs ...
-  conan:      PLACEHOLDER             # TODO: REPLACE WITH: true | false
-  arch:       linux/amd64,linux/arm64 # TODO: replace with correct arch
   
 inputs:
   namespace:          # drone | bin | gcs ...
