@@ -42,7 +42,7 @@ inputs:
 outputs:
   url:
     description: 'The URL of the new image'
-    value: ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.new_tag }},${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.branch }}
+    value: ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.new_tag }}
   digest:
     description: 'The digest of the new image'
     value: ${{ steps.build.outputs.digest }}
