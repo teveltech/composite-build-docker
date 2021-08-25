@@ -5,10 +5,10 @@ inputs:
   namespace:          # drone | bin | gcs ...
     required: true
     description: 'The module namespace'
-#   conan:
-#     required: false
-#     description: 'Whether the image contains a conan package or not'
-#     default: false
+  conan:
+    required: false
+    description: 'Whether the image contains a conan package or not'
+    default: false
   arch:
     required: true
     description: 'The architucture to build the image for'
