@@ -16,7 +16,6 @@ inputs:
   registry:
     required: true
     description: 'The registry URL'
-    default: ${{ secrets.JFROG_URL }}
   username:
     required: true
     description: 'The registry user name'
