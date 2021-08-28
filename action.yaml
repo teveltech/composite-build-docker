@@ -39,6 +39,10 @@ inputs:
   previous_light_tag:
     required: false
     description: 'previous lightweight tag'
+  build-args:
+    required: false
+    description: 'docker build arguments'
+    default: IMAGE_TAG=${{ inputs.branch }}
 outputs:
   url:
     description: 'The URL of the new image'
@@ -93,3 +97,4 @@ runs:
           tags: ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.new_tag }},${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.branch }}
           cache-from: type=registry,ref=${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.previous_light_tag }}
           cache-to: type=inline
+          build-args: ${{ inputs.build-args }}
