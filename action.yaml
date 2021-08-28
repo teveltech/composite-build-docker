@@ -22,11 +22,10 @@ inputs:
   password:
     required: true
     description: 'The registry password'
-  qemu_image:
-    required: false
-    description: 'qemu image to use'
-    default: '${{ inputs.registry }}/reg/base/tonistiigi/binfmt:latest'
-#     default: tonistiigi/binfmt:latest
+#   qemu_image:
+#     required: false
+#     description: 'qemu image to use'
+# #     default: tonistiigi/binfmt:latest
   new_tag:
     required: true
     description: 'The new tag to push'
@@ -75,8 +74,8 @@ runs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
         with:
-          image: ${{ inputs.qemu_image }}
-#           image: ${{ inputs.registry }}/reg/base/tonistiigi/binfmt:latest
+#           image: ${{ inputs.qemu_image }}
+          image: ${{ inputs.registry }}/reg/base/tonistiigi/binfmt:latest
           platforms: all
           
       - name: Setup docker buildx
