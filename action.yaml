@@ -43,8 +43,9 @@ inputs:
     required: false
     description: 'docker build arguments'
   package-file:
-    required: false
+    required: true
     description: 'Path to package.json / setup.py / conanfile.py / Chart.yaml'
+    default: './'
 outputs:
   url:
     description: 'The URL of the new image'
