@@ -42,7 +42,6 @@ inputs:
   build-args:
     required: false
     description: 'docker build arguments'
-    default: IMAGE_TAG=${{ inputs.branch }}
 outputs:
   url:
     description: 'The URL of the new image'
