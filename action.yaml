@@ -25,6 +25,7 @@ inputs:
   qemu_image:
     required: false
     description: 'qemu image to use'
+    default: '${{ inputs.registry }}/reg/base/tonistiigi/binfmt:latest'
 #     default: tonistiigi/binfmt:latest
   new_tag:
     required: true
@@ -75,6 +76,7 @@ runs:
         uses: docker/setup-qemu-action@v1
         with:
           image: ${{ inputs.qemu_image }}
+#           image: ${{ inputs.registry }}/reg/base/tonistiigi/binfmt:latest
           platforms: all
           
       - name: Setup docker buildx
