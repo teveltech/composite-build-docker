@@ -42,6 +42,9 @@ inputs:
   build-args:
     required: false
     description: 'docker build arguments'
+  package-file:
+    required: false
+    description: 'Path to package.json / setup.py / conanfile.py / Chart.yaml'
 outputs:
   url:
     description: 'The URL of the new image'
@@ -58,6 +61,13 @@ runs:
 #         uses: actions/checkout@v2
 #         with:
 #           persist-credentials: false
+
+      - name: Override version in package.json / setup.py / conanfile.py / Chart.yaml
+#         if: ${{ inputs.conan == 'true' }}
+        uses: teveltech/version-action@no-fail
+        with:
+          new_version: ${{ inputs.new_tag }}
+          file_path: ${{ inputs.package-file }}
           
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -77,12 +87,6 @@ runs:
           registry: ${{ inputs.registry }}
           username: ${{ inputs.username }} 
           password: ${{ inputs.password }}
-          
-      - name: Override version in package.json / setup.py / conanfile.py / Chart.yaml
-#         if: ${{ inputs.conan == 'true' }}
-        uses: teveltech/version-action@no-fail
-        with:
-          new_version: ${{ inputs.new_tag }}
           
       - name: Build
         id: build
