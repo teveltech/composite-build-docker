@@ -46,6 +46,9 @@ inputs:
     required: true
     description: 'Path to package.json / setup.py / conanfile.py / Chart.yaml'
     default: './'
+  secrets:
+    required: false
+    description: 'secrets to pass to docker'
     
 outputs:
   url:
@@ -104,3 +107,4 @@ runs:
           cache-from: type=registry,ref=${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.previous_light_tag }}
           cache-to: type=inline
           build-args: ${{ inputs.build-args }}
+          secrets: ${{ inputs.secrets }}
