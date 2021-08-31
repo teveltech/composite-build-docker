@@ -22,11 +22,11 @@ inputs:
   password:
     required: true
     description: 'The registry password'
-#   qemu_image:
+#   qemu-image:
 #     required: false
 #     description: 'qemu image to use'
 # #     default: tonistiigi/binfmt:latest
-  new_tag:
+  new-tag:
     required: true
     description: 'The new tag to push'
   dockerfile:
@@ -36,13 +36,13 @@ inputs:
   branch:
     required: true
     description: 'The repo branch'
-  previous_light_tag:
+  previous-light-tag:
     required: false
     description: 'previous lightweight tag'
   build-args:
     required: false
     description: 'docker build arguments'
-  package-file:
+  package-folder:
     required: true
     description: 'Path to package.json / setup.py / conanfile.py / Chart.yaml'
     default: './'
@@ -71,13 +71,13 @@ runs:
 #         if: ${{ inputs.conan == 'true' }}
         uses: teveltech/version-action@no-fail
         with:
-          new_version: ${{ inputs.new_tag }}
-          file_path: ${{ inputs.package-file }}
+          new_version: ${{ inputs.new-tag }}
+          file_path: ${{ inputs.package-folder }}
           
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
         with:
-#           image: ${{ inputs.qemu_image }}
+#           image: ${{ inputs.qemu-image }}
           image: ${{ inputs.registry }}/reg/base/tonistiigi/binfmt:latest
           platforms: all
           
@@ -103,8 +103,8 @@ runs:
           platforms: ${{ inputs.arch }}
           pull: true
           push: true
-          tags: ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.new_tag }},${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.branch }}
-          cache-from: type=registry,ref=${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.previous_light_tag }}
+          tags: ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.new-tag }},${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.branch }}
+          cache-from: type=registry,ref=${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.previous-light-tag }}
           cache-to: type=inline
           build-args: ${{ inputs.build-args }}
           secrets: ${{ inputs.secrets }}
