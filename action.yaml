@@ -9,7 +9,7 @@ inputs:
 #     required: false
 #     description: 'Whether the image contains a conan package or not'
 #     default: false
-  arch:
+  platforms:
     required: true
     description: 'The architucture to build the image for'
 #     default: linux/amd64,linux/arm64
@@ -100,7 +100,7 @@ runs:
         with:
           context: .
           file: ${{ inputs.dockerfile }}
-          platforms: ${{ inputs.arch }}
+          platforms: ${{ inputs.platforms }}
           pull: true
           push: true
           tags: ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.new-tag }},${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.branch }}
