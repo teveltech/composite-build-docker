@@ -103,7 +103,9 @@ runs:
           platforms: ${{ inputs.platforms }}
           pull: true
           push: true
-          tags: ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.new-tag }},${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.branch }}
+          tags: |
+            ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.new-tag }}
+            ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.branch }}
           cache-from: type=registry,ref=${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.previous-light-tag }}
           cache-to: type=inline
           build-args: ${{ inputs.build-args }}
