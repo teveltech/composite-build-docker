@@ -51,12 +51,19 @@ inputs:
     description: 'secrets to pass to docker'
     
 outputs:
+  image:
+    description: 'The name and tag of the new image'
+    value: ${{ github.event.repository.name }}:${{ inputs.new-tag }}
   url:
     description: 'The URL of the new image'
-    value: ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.new_tag }}
+    value: ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.new-tag }}
   digest:
     description: 'The digest of the new image'
     value: ${{ steps.build.outputs.digest }}
+  package:
+    value: jfrog.local:8081/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.new-tag }}
+  command:
+    value: docker pull jfrog.local:8081/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.new-tag }}
   
 runs:
     using: "composite"
