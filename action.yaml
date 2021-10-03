@@ -26,6 +26,10 @@ inputs:
 #     required: false
 #     description: 'qemu image to use'
 # #     default: tonistiigi/binfmt:latest
+  image:
+    required: true
+    description: 'The image name'
+    default: ${{ github.event.repository.name }}
   new-tag:
     required: true
     description: 'The new tag to push'
@@ -53,17 +57,17 @@ inputs:
 outputs:
   image:
     description: 'The name and tag of the new image'
-    value: ${{ github.event.repository.name }}:${{ inputs.new-tag }}
+    value: ${{ inputs.image }}:${{ inputs.new-tag }}
   url:
     description: 'The URL of the new image'
-    value: ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.new-tag }}
+    value: ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}
   digest:
     description: 'The digest of the new image'
     value: ${{ steps.build.outputs.digest }}
   package:
-    value: jfrog.local:8081/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.new-tag }}
+    value: jfrog.local:8081/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}
   command:
-    value: docker pull jfrog.local:8081/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.new-tag }}
+    value: docker pull jfrog.local:8081/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}
   
 runs:
     using: "composite"
@@ -111,9 +115,9 @@ runs:
           pull: true
           push: true
           tags: |
-            ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.new-tag }}
-            ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.branch }}
-          cache-from: type=registry,ref=${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ github.event.repository.name }}:${{ inputs.previous-light-tag }}
+            ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}
+            ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.branch }}
+          cache-from: type=registry,ref=${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.previous-light-tag }}
           cache-to: type=inline
           build-args: ${{ inputs.build-args }}
           secrets: ${{ inputs.secrets }}
