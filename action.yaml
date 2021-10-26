@@ -64,10 +64,8 @@ outputs:
   digest:
     description: 'The digest of the new image'
     value: ${{ steps.build.outputs.digest }}
-  package:
-    value: jfrog.local:8081/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}
   command:
-    value: docker pull jfrog.local:8081/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}
+    value: docker pull ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}
   
 runs:
     using: "composite"
