@@ -37,9 +37,10 @@ inputs:
     required: true
     description: 'The dockerfile to build'
     default: ./Dockerfile
-  branch:                                 # DEPRECATED
+  branch:
     required: false
     description: 'The repo branch'
+    default: $GITHUB_REF_NAME
   previous-light-tag:
     required: false
     description: 'previous lightweight tag'
@@ -114,7 +115,7 @@ runs:
           push: true
           tags: |
             ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}
-            ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:$GITHUB_REF_NAME
+            ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.branch }}
           cache-from: type=registry,ref=${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.previous-light-tag }}
           cache-to: type=inline
           build-args: ${{ inputs.build-args }}
