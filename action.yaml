@@ -54,6 +54,10 @@ inputs:
   secrets:
     required: false
     description: 'secrets to pass to docker'
+  no-cache:
+    description: "Do not use cache when building the image"
+    required: false
+    default: 'false'
     
 outputs:
   image:
@@ -120,3 +124,4 @@ runs:
           cache-to: type=inline
           build-args: ${{ inputs.build-args }}
           secrets: ${{ inputs.secrets }}
+          no-cache: ${{ inputs.no-cache }}
