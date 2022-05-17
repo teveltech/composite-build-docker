@@ -157,14 +157,14 @@ runs:
 #           docker tag ${{ steps.docker.outputs.digest }} ${{ inputs.cloud_registry }}/tevel/${{ inputs.image }}:${{ inputs.new-tag }}
 #           docker push ${{ inputs.cloud_registry }}/tevel/${{ inputs.image }}:${{ inputs.new-tag }}
           
-#       - name: Push Image to multiple registries
+      - name: Push Image to multiple registries
+        uses: akhilerm/tag-push-action@v2.0.0
 #         uses: akhilerm/tag-push-action@v2.0.0
-# #         uses: akhilerm/tag-push-action@v2.0.0
-# #         if: ${{ github.ref_name == 'refs/heads/dev' || github.ref_name == 'refs/heads/master' || github.ref_name == 'refs/heads/gcp' }}
-# #         if: ${{ github.ref_name == 'refs/heads/gcp' }}
+#         if: ${{ github.ref_name == 'refs/heads/dev' || github.ref_name == 'refs/heads/master' || github.ref_name == 'refs/heads/gcp' }}
+#         if: ${{ github.ref_name == 'refs/heads/gcp' }}
 
-#         with:
-#           docker-config-path: /home/tevel/.docker/config.json
-#           src: ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}
-#           dst: |
-#             ${{ inputs.cloud_registry }}/tevel/${{ inputs.image }}:${{ github.ref_name }} 
+        with:
+          docker-config-path: /home/tevel/.docker/config.json
+          src: ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}
+          dst: |
+            ${{ inputs.cloud_registry }}/tevel/${{ inputs.image }}:${{ inputs.new-tag }}
