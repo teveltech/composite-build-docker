@@ -162,7 +162,7 @@ runs:
         if:
           contains('
             refs/heads/quay
-            refs/heads/master
+            refs/heads/quay-withoutlogin
           ', github.ref)
         with:
           docker-config-path: /home/tevel/.docker/config.json
