@@ -169,4 +169,4 @@ runs:
           docker-config-path: /home/tevel/.docker/config.json
           src: ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}
           dst: |
-            ${{ inputs.cloud_registry }}/tevel/${{ inputs.image }}:${{ inputs.new-tag }}
+            quay.io/tevel/${{ inputs.image }}:${{ inputs.new-tag }}
