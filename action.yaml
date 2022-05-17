@@ -114,6 +114,7 @@ runs:
       - name: Login to Container Registry
         uses: docker/login-action@v1
         with:
+          logut: false
           registry: ${{ inputs.registry }}
           username: ${{ inputs.username }} 
           password: ${{ inputs.password }}
@@ -148,7 +149,7 @@ runs:
         if:
           contains('
             refs/heads/quay
-            refs/heads/notquay-withoutlogin
+            refs/heads/quay-withoutlogin
           ', github.ref)
         shell: bash
         run: |
