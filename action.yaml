@@ -148,7 +148,7 @@ runs:
         if:
           contains('
             refs/heads/quay
-            refs/heads/not-quay
+            refs/heads/notquay-withoutlogin
           ', github.ref)
         shell: bash
         run: |
