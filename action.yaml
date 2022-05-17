@@ -118,13 +118,13 @@ runs:
           username: ${{ inputs.username }} 
           password: ${{ inputs.password }}
           
-      - name: Login to Quay Container Registry
-        uses: docker/login-action@v1
-        with:
-            logout: false
-            registry: ${{ inputs.cloud_registry }}
-            username: ${{ inputs.cloud_username }} 
-            password: ${{ inputs.cloud_password }}
+#       - name: Login to Quay Container Registry
+#         uses: docker/login-action@v1
+#         with:
+#             logout: false
+#             registry: ${{ inputs.cloud_registry }}
+#             username: ${{ inputs.cloud_username }} 
+#             password: ${{ inputs.cloud_password }}
     
       - name: Build
         id: build
