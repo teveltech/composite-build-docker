@@ -22,6 +22,16 @@ inputs:
   password:
     required: true
     description: 'The registry password'
+  
+  cloud_registry:
+    required: true
+    description: 'The registry URL'
+  cloud_username:
+    required: true
+    description: 'The registry user name'
+  cloud_password:
+    required: true
+    description: 'The registry password'
 #   qemu-image:
 #     required: false
 #     description: 'qemu image to use'
@@ -108,6 +118,14 @@ runs:
           username: ${{ inputs.username }} 
           password: ${{ inputs.password }}
           
+      - name: Login to Quay Container Registry
+        uses: docker/login-action@v1
+        with:
+            logout: false
+            registry: ${{ inputs.cloud_registry }}
+            username: ${{ inputs.cloud_username }} 
+            password: ${{ inputs.cloud_password }}
+    
       - name: Build
         id: build
         uses: docker/build-push-action@v2
@@ -125,3 +143,28 @@ runs:
           build-args: ${{ inputs.build-args }}
           secrets: ${{ inputs.secrets }}
           no-cache: ${{ inputs.no-cache }}
+          
+      - name: Push docker image to Quay.io
+        if:
+          contains('
+            refs/heads/quay
+            refs/heads/not-quay
+          ', github.ref)
+        shell: bash
+        run: |
+          cat /home/tevel/.docker/config.json
+#         run: |
+#           docker tag ${{ steps.docker.outputs.digest }} ${{ inputs.cloud_registry }}/tevel/${{ inputs.image }}:${{ inputs.new-tag }}
+#           docker push ${{ inputs.cloud_registry }}/tevel/${{ inputs.image }}:${{ inputs.new-tag }}
+          
+#       - name: Push Image to multiple registries
+#         uses: akhilerm/tag-push-action@v2.0.0
+# #         uses: akhilerm/tag-push-action@v2.0.0
+# #         if: ${{ github.ref_name == 'refs/heads/dev' || github.ref_name == 'refs/heads/master' || github.ref_name == 'refs/heads/gcp' }}
+# #         if: ${{ github.ref_name == 'refs/heads/gcp' }}
+
+#         with:
+#           docker-config-path: /home/tevel/.docker/config.json
+#           src: ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}
+#           dst: |
+#             ${{ inputs.cloud_registry }}/tevel/${{ inputs.image }}:${{ github.ref_name }} 
