@@ -1,6 +1,9 @@
 name: 'Docker composite action'
 description: 'A composite action to handle building a Docker image'
-  
+
+registry_new: "10.10.20.20:8081"
+
+
 inputs:
   namespace:          # drone | bin | gcs ...
     required: true
@@ -101,14 +104,21 @@ runs:
       - name: Configure docker buildx
         uses: teveltech/buildx-action@master
           
-      - name: Login to Container Registry
+      - name: Login to Container Registry Jfrog Old
         uses: docker/login-action@v1
         with:
           registry: ${{ inputs.registry }}
           username: ${{ inputs.username }} 
           password: ${{ inputs.password }}
-          
-      - name: Build
+
+      - name: Login to Container Registry Jfrog New
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ registry_new }}
+          username: "admin" 
+          password: "M@yTh3Fr0gBeWithU"
+
+      - name: Build Jfrog Old
         id: build
         uses: docker/build-push-action@v2
         with:
@@ -121,6 +131,24 @@ runs:
             ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}
             ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ github.ref_name }} 
           cache-from: type=registry,ref=${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.previous-light-tag }}
+          cache-to: type=inline
+          build-args: ${{ inputs.build-args }}
+          secrets: ${{ inputs.secrets }}
+          no-cache: ${{ inputs.no-cache }}
+
+      - name: Build Jfrog New
+        id: build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ${{ inputs.dockerfile }}
+          platforms: ${{ inputs.platforms }}
+          pull: true
+          push: true
+          tags: |
+            ${{ registry_new }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}
+            ${{ registry_new }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ github.ref_name }} 
+          cache-from: type=registry,ref=${{ registry_new }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.previous-light-tag }}
           cache-to: type=inline
           build-args: ${{ inputs.build-args }}
           secrets: ${{ inputs.secrets }}
