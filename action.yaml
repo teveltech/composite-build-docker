@@ -96,7 +96,7 @@ runs:
           platforms: all
           
       - name: Setup docker buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@master
         
       - name: Configure docker buildx
         uses: teveltech/buildx-action@master
