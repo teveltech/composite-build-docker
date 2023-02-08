@@ -129,4 +129,4 @@ runs:
       - name: Add to summary
         run: |
           echo '### Docker image:' >> $GITHUB_STEP_SUMMARY
-          echo `docker pull ${{ steps.docker.outputs.image }}` >> $GITHUB_STEP_SUMMARY
+          echo `docker pull ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}` >> $GITHUB_STEP_SUMMARY
