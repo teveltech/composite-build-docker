@@ -125,3 +125,8 @@ runs:
           build-args: ${{ inputs.build-args }}
           secrets: ${{ inputs.secrets }}
           no-cache: ${{ inputs.no-cache }}
+        
+      - name: Add to summary
+        run: |
+          echo '### Docker image:' >> $GITHUB_STEP_SUMMARY
+          echo `docker pull ${{ steps.docker.outputs.image }}` >> $GITHUB_STEP_SUMMARY
