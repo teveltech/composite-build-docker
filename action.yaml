@@ -130,5 +130,5 @@ runs:
         id: summary
         shell: bash
         run: |
-          echo '### Docker image:' >> $GITHUB_STEP_SUMMARY
-          echo '`docker pull ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}`' >> $GITHUB_STEP_SUMMARY
+          echo '##### Docker image:' >> $GITHUB_STEP_SUMMARY
+          echo '`docker pull jfrog.local:8081/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}`' >> $GITHUB_STEP_SUMMARY
