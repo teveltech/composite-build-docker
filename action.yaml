@@ -131,4 +131,4 @@ runs:
         shell: bash
         run: |
           echo '### Docker image:' >> $GITHUB_STEP_SUMMARY
-          echo `docker pull ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}` >> $GITHUB_STEP_SUMMARY
+          echo '`docker pull ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}`' >> $GITHUB_STEP_SUMMARY
