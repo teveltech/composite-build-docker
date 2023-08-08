@@ -125,6 +125,7 @@ runs:
           build-args: ${{ inputs.build-args }}
           secrets: ${{ inputs.secrets }}
           no-cache: ${{ inputs.no-cache }}
+          provenance: false
         
       - name: Add to summary
         id: summary
