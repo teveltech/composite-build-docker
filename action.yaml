@@ -128,7 +128,7 @@ runs:
           secrets: ${{ inputs.secrets }}
           no-cache: ${{ inputs.no-cache }}
           provenance: false
-          outputs: ${{ inputs.outputs }}
+          # outputs: ${{ inputs.outputs }}
           load: true
         
       - name: Add to summary
