@@ -116,7 +116,7 @@ runs:
           file: ${{ inputs.dockerfile }}
           platforms: ${{ inputs.platforms }}
           pull: true
-          push: false
+          push: true
           tags: |
             ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}
             ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ github.ref_name }} 
