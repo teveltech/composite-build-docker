@@ -58,6 +58,8 @@ inputs:
     description: "Do not use cache when building the image"
     required: false
     default: 'false'
+  outputs:
+    required: true
     
 outputs:
   image:
@@ -126,6 +128,7 @@ runs:
           secrets: ${{ inputs.secrets }}
           no-cache: ${{ inputs.no-cache }}
           provenance: false
+          outputs: ${{ inputs.outputs }}
         
       - name: Add to summary
         id: summary
