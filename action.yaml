@@ -110,15 +110,34 @@ runs:
           username: ${{ inputs.username }} 
           password: ${{ inputs.password }}
           
+      - name: Build and export to Docker
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          load: true
+          tags: ${{ github.event.repository.name }}-${{github.run_id}}
+      - name: Test
+        run: |           
+          docker run -d --name ${{ github.event.repository.name }}-${{github.run_id}} ${{ github.event.repository.name }}-${{github.run_id}} sleep infinity 
+          docker exec ${{ github.event.repository.name }}-${{github.run_id}} /usr/bin/python3 -m unittest && true
+          if [ $? != 0 ]; then
+            echo "Unit tests failed"
+            echo "Unit tests failed" >> $GITHUB_STEP_SUMMARY 
+            docker rm ${{ github.event.repository.name }}-${{github.run_id}} -f
+            docker rmi ${{ secrets.JFROG_URL }}/reg/${{ env.namespace }}/${{ github.event.repository.name }}:${{ needs.version.outputs.new-tag }}
+            exit 1
+          fi
+          docker rm ${{ github.event.repository.name }}-${{github.run_id}} -f
+          
       - name: Build
-        id: build
+        id: build and push
         uses: docker/build-push-action@v4.0.0
         with:
           context: .
           file: ${{ inputs.dockerfile }}
           platforms: ${{ inputs.platforms }}
           pull: true
-          push: false
+          push: true
           # tags: |
           #   ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}
           #   ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ github.ref_name }} 
@@ -129,7 +148,7 @@ runs:
           no-cache: ${{ inputs.no-cache }}
           provenance: false
           # outputs: ${{ inputs.outputs }}
-          load: true
+  
         
       - name: Add to summary
         id: summary
