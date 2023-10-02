@@ -117,6 +117,7 @@ runs:
           load: true
           tags: ${{ github.event.repository.name }}-${{github.run_id}}
       - name: Test
+        shell: bash
         run: |           
           docker run -d --name ${{ github.event.repository.name }}-${{github.run_id}} ${{ github.event.repository.name }}-${{github.run_id}} sleep infinity 
           docker exec ${{ github.event.repository.name }}-${{github.run_id}} /usr/bin/python3 -m unittest && true
