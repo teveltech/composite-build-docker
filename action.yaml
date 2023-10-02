@@ -125,7 +125,6 @@ runs:
             echo "Unit tests failed"
             echo "Unit tests failed" >> $GITHUB_STEP_SUMMARY 
             docker rm ${{ github.event.repository.name }}-${{github.run_id}} -f
-            docker rmi ${{ secrets.JFROG_URL }}/reg/${{ env.namespace }}/${{ github.event.repository.name }}:${{ needs.version.outputs.new-tag }}
             exit 1
           fi
           docker rm ${{ github.event.repository.name }}-${{github.run_id}} -f
