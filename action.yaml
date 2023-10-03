@@ -115,11 +115,11 @@ runs:
         with:
           context: .
           load: true
-          tags: ${{ github.event.repository.name }}-${{github.run_id}}
+          tags: ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}
       - name: Test
         shell: bash
         run: |           
-          docker run -d --name ${{ github.event.repository.name }}-${{github.run_id}} ${{ github.event.repository.name }}-${{github.run_id}} sleep infinity 
+          docker run -d --name ${{ github.event.repository.name }}-${{github.run_id}} ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }} sleep infinity 
           docker exec ${{ github.event.repository.name }}-${{github.run_id}} /usr/bin/python3 -m unittest && true
           if [ $? != 0 ]; then
             echo "Unit tests failed"
