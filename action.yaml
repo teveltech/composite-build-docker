@@ -60,6 +60,9 @@ inputs:
     default: 'false'
   outputs:
     required: true
+  unit-tests:
+    required: false
+    default: false
     
 outputs:
   image:
@@ -112,11 +115,13 @@ runs:
           
       - name: Build and export to Docker
         uses: docker/build-push-action@v4.0.0
+        if: ${{ inputs.unit-tests }}
         with:
           context: .
           load: true
           tags: ${{ github.event.repository.name }}-${{github.run_id}}
       - name: Test
+        if: ${{ inputs.unit-tests }}
         shell: bash
         run: |           
           docker run -d --name ${{ github.event.repository.name }}-${{github.run_id}} ${{ github.event.repository.name }}-${{github.run_id}} sleep infinity 
@@ -124,8 +129,8 @@ runs:
           if [ $? != 0 ]; then
             echo "Unit tests failed"
             echo "Unit tests failed" >> $GITHUB_STEP_SUMMARY 
-            # docker rm ${{ github.event.repository.name }}-${{github.run_id}} -f
-            # exit 1
+            docker rm ${{ github.event.repository.name }}-${{github.run_id}} -f
+            exit 1
           fi
           docker rm ${{ github.event.repository.name }}-${{github.run_id}} -f
           
