@@ -58,8 +58,6 @@ inputs:
     description: "Do not use cache when building the image"
     required: false
     default: 'false'
-  outputs:
-    required: true
   unit-tests:
     required: false
     default: false
@@ -120,18 +118,35 @@ runs:
           context: .
           load: true
           tags: ${{ github.event.repository.name }}-${{github.run_id}}
+          
       - name: Test
         if: ${{ inputs.unit-tests }}
         shell: bash
         run: |           
           docker run -d --name ${{ github.event.repository.name }}-${{github.run_id}} ${{ github.event.repository.name }}-${{github.run_id}} sleep infinity 
+          echo "Running unit tests"
           docker exec ${{ github.event.repository.name }}-${{github.run_id}} /usr/bin/python3 -m unittest && true
           if [ $? != 0 ]; then
             echo "Unit tests failed"
             echo "Unit tests failed" >> $GITHUB_STEP_SUMMARY 
             docker rm ${{ github.event.repository.name }}-${{github.run_id}} -f
             exit 1
+          else
+            echo "Unit tests succeeded"
           fi
+          shpah=$(docker exec ${{ github.event.repository.name }}-${{github.run_id}} grep -lR doctest)
+          for file in $shpah;
+          do
+            docker exec ${{ github.event.repository.name }}-${{github.run_id}} "/usr/bin/python3 -m doctest $file" && true
+            if [ $? != 0 ]; then
+              echo "doctest failed : $file"
+              echo "doctest failed : $file" >> $GITHUB_STEP_SUMMARY 
+              docker rm ${{ github.event.repository.name }}-${{github.run_id}} -f
+              exit 1
+            else
+              echo "doctests succeeded"
+            fi
+          done
           docker rm ${{ github.event.repository.name }}-${{github.run_id}} -f
           
       - name: Build
