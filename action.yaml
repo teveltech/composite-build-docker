@@ -130,6 +130,7 @@ runs:
             echo "Unit tests failed"
             echo "Unit tests failed" >> $GITHUB_STEP_SUMMARY 
             docker rm ${{ github.event.repository.name }}-${{github.run_id}} -f
+            docker rmi ${{ github.event.repository.name }}-${{github.run_id}} -f
             exit 1
           else
             echo "Unit tests succeeded"
@@ -142,6 +143,7 @@ runs:
               echo "doctest failed : $file"
               echo "doctest failed : $file" >> $GITHUB_STEP_SUMMARY 
               docker rm ${{ github.event.repository.name }}-${{github.run_id}} -f
+              docker rmi ${{ github.event.repository.name }}-${{github.run_id}} -f
               exit 1
             else
               echo "doctests succeeded"
