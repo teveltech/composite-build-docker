@@ -137,7 +137,7 @@ runs:
           shpah=$(docker exec ${{ github.event.repository.name }}-${{github.run_id}} grep -lR doctest)
           for file in $shpah;
           do
-            docker exec ${{ github.event.repository.name }}-${{github.run_id}} "/usr/bin/python3 -m doctest $file" && true
+            docker exec ${{ github.event.repository.name }}-${{github.run_id}} bash -ic "/usr/bin/python3 -m doctest $file" && true
             if [ $? != 0 ]; then
               echo "doctest failed : $file"
               echo "doctest failed : $file" >> $GITHUB_STEP_SUMMARY 
