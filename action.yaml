@@ -110,6 +110,7 @@ runs:
           registry: ${{ inputs.registry }}
           username: ${{ inputs.username }} 
           password: ${{ inputs.password }}
+          
       - name: Generate tags
         id: tags
         shell: bash
