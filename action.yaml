@@ -58,9 +58,6 @@ inputs:
     description: "Do not use cache when building the image"
     required: false
     default: 'false'
-  unit-tests:
-    required: false
-    default: false
     
 outputs:
   image:
