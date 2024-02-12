@@ -114,10 +114,10 @@ runs:
         id: tags
         shell: bash
         run: |
-          if [[ ${{ inputs.gcr == 'true' }} == "true" ]]; then
+          if [[ ${{ inputs.gcr == 'true' }} == true ]]; then
             tags="gcr.io/teveltech/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}"
           fi
-          tags=$(echo "${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }},${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ github.ref_name }},$tags)
+          tags=$(echo "${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }},${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ github.ref_name }},$tags")
           echo tags=$tags >> $GITHUB_OUTPUT
           
       - name: Build
