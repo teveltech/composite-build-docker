@@ -58,6 +58,9 @@ inputs:
     description: "Do not use cache when building the image"
     required: false
     default: 'false'
+  gcr:
+    required: false
+    default: false
     
 outputs:
   image:
@@ -120,6 +123,7 @@ runs:
           tags: |
             ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}
             ${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ github.ref_name }} 
+            ${{ inputs.gcr == 'true' && 'gcr.io/teveltech/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}' || '' }}
           cache-from: type=registry,ref=${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.previous-light-tag }}
           cache-to: type=inline
           build-args: ${{ inputs.build-args }}
