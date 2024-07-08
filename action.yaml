@@ -86,20 +86,20 @@ runs:
 
       - name: Override version in package.json / setup.py / conanfile.py / Chart.yaml
 #         if: ${{ inputs.conan == 'true' }}
-        uses: teveltech/version-action@no-fail
+        uses: teveltech/version-action@update_node
         with:
           new_version: ${{ inputs.new-tag }}
           file_path: ${{ inputs.package-folder }}
           
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2.1.0
+        uses: docker/setup-qemu-action@v3
         with:
 #           image: ${{ inputs.qemu-image }}
           image: ${{ inputs.registry }}/reg/base/tonistiigi/binfmt:latest
           platforms: all
           
       - name: Setup docker buildx
-        uses: docker/setup-buildx-action@v2.5.0
+        uses: docker/setup-buildx-action@v3
         
       - name: Configure docker buildx
         uses: teveltech/buildx-action@master
@@ -123,7 +123,7 @@ runs:
           
       - name: Build
         id: build
-        uses: docker/build-push-action@v4.0.0
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: ${{ inputs.dockerfile }}
