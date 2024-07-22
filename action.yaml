@@ -118,8 +118,9 @@ runs:
           if [[ ${{ inputs.gcr == 'true' }} == true ]]; then
             tags="gcr.io/teveltech/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }}"
           fi
-          branch_tag=$(echo ${{ github.ref_name }} | grep 's/\//-/g')
-          tags=$(echo "${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }},${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:$branch_tag,$tags")
+          branch_tag=$(echo "${{ github.ref_name }}" | grep 's/\//-/g')
+          echo "here"
+          tags=$(echo "${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${{ inputs.new-tag }},${{ inputs.registry }}/reg/${{ inputs.namespace }}/${{ inputs.image }}:${branch_tag},$tags")
           echo tags=$tags >> $GITHUB_OUTPUT
           
       - name: Build
